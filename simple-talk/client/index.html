@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Book a Lesson with Sagar</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-center p-6">
+  <h1 class="text-3xl font-bold mb-4">Book a Lesson with Sagar</h1>
+
+  <form id="bookingForm" class="bg-white p-6 rounded shadow-md max-w-md mx-auto">
+    <input name="name" placeholder="Your Name" class="block w-full mb-3 p-2 border" required>
+    <input name="email" placeholder="Email" type="email" class="block w-full mb-3 p-2 border" required>
+    
+    <label class="block mb-2">Select Duration:</label>
+    <select name="duration" class="block w-full mb-3 p-2 border">
+      <option value="30">30 minutes</option>
+      <option value="60">60 minutes</option>
+    </select>
+
+    <label class="block mb-2">Preferred Time (IST):</label>
+    <input name="time" type="datetime-local" class="block w-full mb-3 p-2 border" required>
+
+    <label class="block mb-2">Preferred Platform:</label>
+    <select name="preferredPlatform" class="block w-full mb-3 p-2 border">
+      <option value="Google Meet">Google Meet</option>
+      <option value="Zoom">Zoom</option>
+      <option value="Microsoft Teams">Microsoft Teams</option>
+    </select>
+
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Book Now</button>
+  </form>
+
+  <div class="mt-6">
+    <p>After booking, please send payment:</p>
+    <a href="https://www.paypal.com/paypalme/thisissagar21" target="_blank" class="text-blue-600 underline">
+      Pay Now via PayPal
+    </a>
+  </div>
+
+  <script>
+    const form = document.getElementById('bookingForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = Object.fromEntries(new FormData(form));
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+      alert(result.message || 'Booking submitted!');
+      form.reset();
+    });
+  </script>
+</body>
+</html>
